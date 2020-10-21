@@ -138,6 +138,9 @@ variable "kubernetes" {
   default = {
     iface = "ens224"
     dockerUser = "ubuntu"
+    dockerVersion = "5:19.03.8~3-0~ubuntu-bionic"
+    podNetworkCidr = "10.244.0.0/16"
+    cni = "calico"
   }
 }
 
