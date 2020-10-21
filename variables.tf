@@ -133,6 +133,14 @@ variable "worker" {
   }
 }
 
+variable "kubernetes" {
+  type = map
+  default = {
+    iface = "ens224"
+    dockerUser = "ubuntu"
+  }
+}
+
 variable "opencart" {
   type = map
   default = {
