@@ -96,7 +96,7 @@ resource "vsphere_virtual_machine" "jump" {
   provisioner "remote-exec" {
     inline      = [
       "chmod 600 ~/.ssh/${basename(var.jump["private_key_path"])}",
-      "cd ~/ansible ; git clone ${var.ansible["k8sInstallUrl"]} --branch ${var.ansible["k8sInstallTag"]} ; ansible-playbook -i /opt/ansible/inventory/inventory.vmware.yml ansibleK8sInstall/main.yml --extra-vars 'k8sApiIf=${kubernetes["iface"]} dockerUser=${kubernetes["dockerUser"]} dockerVersion=${kubernetes["dockerVersion"]} podNetworkCidr=${kubernetes["podNetworkCidr"]} cni=${kubernetes["cni"]}'",
+      "cd ~/ansible ; git clone ${var.ansible["k8sInstallUrl"]} --branch ${var.ansible["k8sInstallTag"]} ; ansible-playbook -i /opt/ansible/inventory/inventory.vmware.yml ansibleK8sInstall/main.yml --extra-vars 'k8sApiIf=${var.kubernetes["iface"]} dockerUser=${var.kubernetes["dockerUser"]} dockerVersion=${var.kubernetes["dockerVersion"]} podNetworkCidr=${var.kubernetes["podNetworkCidr"]} cni=${var.kubernetes["cni"]}'",
     ]
   }
 
