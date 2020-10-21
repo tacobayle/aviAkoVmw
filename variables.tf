@@ -121,7 +121,7 @@ variable "worker" {
     count = 3
     cpu = 2
     memory = 4096
-    disk = 30
+    disk = 20
     password = "Avi_2020"
     network = "vxw-dvs-34-virtualwire-116-sid-6120115-wdc-06-vc12-avi-dev112"
     wait_for_guest_net_routable = "false"

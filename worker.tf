@@ -28,12 +28,13 @@ resource "vsphere_virtual_machine" "worker" {
   folder           = vsphere_folder.folder.path
 
   network_interface {
-                      network_id = data.vsphere_network.networkBackend.id
+                      network_id = data.vsphere_network.networkMgt.id
   }
 
   network_interface {
-                      network_id = data.vsphere_network.networkMgt.id
+                      network_id = data.vsphere_network.networkBackend.id
   }
+
 
   num_cpus = var.worker["cpu"]
   memory = var.worker["memory"]
