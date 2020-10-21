@@ -5,11 +5,11 @@ output "jump" {
 }
 
 output "master" {
-  value = vsphere_virtual_machine.master.guest_ip_addresses
+  value = vsphere_virtual_machine.master.*.guest_ip_addresses
 }
 
 output "worker" {
-  value = vsphere_virtual_machine.worker.guest_ip_addresses
+  value = vsphere_virtual_machine.worker.*.guest_ip_addresses
 }
 
 
