@@ -77,7 +77,7 @@ resource "vsphere_virtual_machine" "master" {
 
   vapp {
     properties = {
-     hostname    = "master-${count.index}"
+     hostname    = "master"
      password    = var.master["password"]
      public-keys = file(var.jump["public_key_path"])
      user-data   = base64encode(data.template_file.master_userdata[count.index].rendered)
