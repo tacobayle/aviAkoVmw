@@ -11,6 +11,7 @@ data "template_file" "worker_userdata" {
   template = file("${path.module}/userdata/worker.userdata")
   vars = {
     password     = var.worker["password"]
+    netplanFile  = var.backend["netplanFile"]
     pubkey       = file(var.jump["public_key_path"])
   }
 }
