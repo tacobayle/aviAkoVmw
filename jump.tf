@@ -96,7 +96,7 @@ resource "vsphere_virtual_machine" "jump" {
   provisioner "remote-exec" {
     inline      = [
       "chmod 600 ~/.ssh/${basename(var.jump["private_key_path"])}",
-      "cd ~/ansible ; git clone ${var.ansible["k8sInstallUrl"]} --branch ${var.ansible["k8sInstallTag"]} ; ansible-playbook -i /opt/ansible/inventory/inventory.vmware.yml ansibleK8sInstall/main.yml --extra-vars "k8sApiIf=ens224",
+      "cd ~/ansible ; git clone ${var.ansible["k8sInstallUrl"]} --branch ${var.ansible["k8sInstallTag"]} ; ansible-playbook -i /opt/ansible/inventory/inventory.vmware.yml ansibleK8sInstall/main.yml --extra-vars 'k8sApiIf=ens224',
     ]
   }
 
