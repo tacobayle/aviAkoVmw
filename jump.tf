@@ -97,12 +97,12 @@ resource "vsphere_virtual_machine" "jump" {
   content      = <<EOF
 ---
 nfsShares:
-${jsonencode(var.nfsShares)}
+${yamlencode(var.nfsShares)}
 
 kubernetesMasterIpCidr: ${vsphere_virtual_machine.master[0].guest_ip_addresses[2]}${var.kubernetes["networkPrefix"]}
 
 kuberenetes:
-${jsonencode(var.kubernetes)}
+${yamlencode(var.kubernetes)}
 
 EOF
   destination = "~/ansible/vars/fromTerraformForKubernetes.yml"
