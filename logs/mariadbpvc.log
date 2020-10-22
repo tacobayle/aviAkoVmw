@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  creationTimestamp: "2020-10-22T08:06:28Z"
+  finalizers:
+  - kubernetes.io/pvc-protection
+  labels:
+    app.kubernetes.io/component: primary
+    app.kubernetes.io/instance: my-release
+    app.kubernetes.io/name: mariadb
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:labels:
+          .: {}
+          f:app.kubernetes.io/component: {}
+          f:app.kubernetes.io/instance: {}
+          f:app.kubernetes.io/name: {}
+      f:spec:
+        f:accessModes: {}
+        f:resources:
+          f:requests:
+            .: {}
+            f:storage: {}
+        f:volumeMode: {}
+      f:status:
+        f:phase: {}
+    manager: kube-controller-manager
+    operation: Update
+    time: "2020-10-22T08:06:28Z"
+  name: data-my-release-mariadb-0
+  namespace: default
+  resourceVersion: "1386"
+  selfLink: /api/v1/namespaces/default/persistentvolumeclaims/data-my-release-mariadb-0
+  uid: a5070060-0d74-4aaa-aabd-267834d84a72
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+  volumeMode: Filesystem
+status:
+  phase: Pending

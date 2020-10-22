@@ -76,7 +76,7 @@ variable "ansible" {
     opencartInstallTag = "v1.19"
     directory = "ansible"
     k8sInstallUrl = "https://github.com/tacobayle/ansibleK8sInstall"
-    k8sInstallTag = "v1.2"
+    k8sInstallTag = "v1.21"
   }
 }
 
@@ -103,7 +103,7 @@ variable "master" {
     count = 1
     cpu = 4
     memory = 8192
-    disk = 30
+    disk = 50
     password = "Avi_2020"
     network = "vxw-dvs-34-virtualwire-116-sid-6120115-wdc-06-vc12-avi-dev112"
     wait_for_guest_net_routable = "false"
@@ -136,12 +136,20 @@ variable "worker" {
 variable "kubernetes" {
   type = map
   default = {
-    iface = "ens224"
+    domain = "ako.avidemo.fr"
+    ifApi = "ens224"
     dockerUser = "ubuntu"
     dockerVersion = "5:19.03.8~3-0~ubuntu-bionic"
     podNetworkCidr = "10.244.0.0/16"
-    cni = "calico"
+    cniUrl = "https://docs.projectcalico.org/manifests/calico.yaml"
+    version = "1.18.2-00"
+    networkPrefix = "/24"
   }
+}
+
+variable "nfsShares" {
+  type = list
+  default = ["nfs-opencart", "nfs-mariadb"]
 }
 
 variable "opencart" {

@@ -1,0 +1,319 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    checksum/configuration: 03251f4b01486ee9f6acd11a7fc84879a375391c5eeea08efa3a5df61a1924fc
+  creationTimestamp: "2020-10-22T08:06:28Z"
+  generateName: my-release-mariadb-
+  labels:
+    app.kubernetes.io/component: primary
+    app.kubernetes.io/instance: my-release
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: mariadb
+    controller-revision-hash: my-release-mariadb-7869c9c9c
+    helm.sh/chart: mariadb-8.0.3
+    statefulset.kubernetes.io/pod-name: my-release-mariadb-0
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .: {}
+          f:checksum/configuration: {}
+        f:generateName: {}
+        f:labels:
+          .: {}
+          f:app.kubernetes.io/component: {}
+          f:app.kubernetes.io/instance: {}
+          f:app.kubernetes.io/managed-by: {}
+          f:app.kubernetes.io/name: {}
+          f:controller-revision-hash: {}
+          f:helm.sh/chart: {}
+          f:statefulset.kubernetes.io/pod-name: {}
+        f:ownerReferences:
+          .: {}
+          k:{"uid":"50eb5896-de0f-4b07-8db2-831a11cddc37"}:
+            .: {}
+            f:apiVersion: {}
+            f:blockOwnerDeletion: {}
+            f:controller: {}
+            f:kind: {}
+            f:name: {}
+            f:uid: {}
+      f:spec:
+        f:affinity:
+          .: {}
+          f:podAntiAffinity:
+            .: {}
+            f:preferredDuringSchedulingIgnoredDuringExecution: {}
+        f:containers:
+          k:{"name":"mariadb"}:
+            .: {}
+            f:env:
+              .: {}
+              k:{"name":"BITNAMI_DEBUG"}:
+                .: {}
+                f:name: {}
+                f:value: {}
+              k:{"name":"MARIADB_DATABASE"}:
+                .: {}
+                f:name: {}
+                f:value: {}
+              k:{"name":"MARIADB_PASSWORD"}:
+                .: {}
+                f:name: {}
+                f:valueFrom:
+                  .: {}
+                  f:secretKeyRef:
+                    .: {}
+                    f:key: {}
+                    f:name: {}
+              k:{"name":"MARIADB_ROOT_PASSWORD"}:
+                .: {}
+                f:name: {}
+                f:valueFrom:
+                  .: {}
+                  f:secretKeyRef:
+                    .: {}
+                    f:key: {}
+                    f:name: {}
+              k:{"name":"MARIADB_USER"}:
+                .: {}
+                f:name: {}
+                f:value: {}
+            f:image: {}
+            f:imagePullPolicy: {}
+            f:livenessProbe:
+              .: {}
+              f:exec:
+                .: {}
+                f:command: {}
+              f:failureThreshold: {}
+              f:initialDelaySeconds: {}
+              f:periodSeconds: {}
+              f:successThreshold: {}
+              f:timeoutSeconds: {}
+            f:name: {}
+            f:ports:
+              .: {}
+              k:{"containerPort":3306,"protocol":"TCP"}:
+                .: {}
+                f:containerPort: {}
+                f:name: {}
+                f:protocol: {}
+            f:readinessProbe:
+              .: {}
+              f:exec:
+                .: {}
+                f:command: {}
+              f:failureThreshold: {}
+              f:initialDelaySeconds: {}
+              f:periodSeconds: {}
+              f:successThreshold: {}
+              f:timeoutSeconds: {}
+            f:resources: {}
+            f:securityContext:
+              .: {}
+              f:runAsUser: {}
+            f:terminationMessagePath: {}
+            f:terminationMessagePolicy: {}
+            f:volumeMounts:
+              .: {}
+              k:{"mountPath":"/bitnami/mariadb"}:
+                .: {}
+                f:mountPath: {}
+                f:name: {}
+              k:{"mountPath":"/opt/bitnami/mariadb/conf/my.cnf"}:
+                .: {}
+                f:mountPath: {}
+                f:name: {}
+                f:subPath: {}
+        f:dnsPolicy: {}
+        f:enableServiceLinks: {}
+        f:hostname: {}
+        f:restartPolicy: {}
+        f:schedulerName: {}
+        f:securityContext:
+          .: {}
+          f:fsGroup: {}
+        f:serviceAccount: {}
+        f:serviceAccountName: {}
+        f:subdomain: {}
+        f:terminationGracePeriodSeconds: {}
+        f:volumes:
+          .: {}
+          k:{"name":"config"}:
+            .: {}
+            f:configMap:
+              .: {}
+              f:defaultMode: {}
+              f:name: {}
+            f:name: {}
+          k:{"name":"data"}:
+            .: {}
+            f:name: {}
+            f:persistentVolumeClaim:
+              .: {}
+              f:claimName: {}
+    manager: kube-controller-manager
+    operation: Update
+    time: "2020-10-22T08:06:28Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        f:conditions:
+          .: {}
+          k:{"type":"PodScheduled"}:
+            .: {}
+            f:lastProbeTime: {}
+            f:lastTransitionTime: {}
+            f:message: {}
+            f:reason: {}
+            f:status: {}
+            f:type: {}
+    manager: kube-scheduler
+    operation: Update
+    time: "2020-10-22T08:06:28Z"
+  name: my-release-mariadb-0
+  namespace: default
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: StatefulSet
+    name: my-release-mariadb
+    uid: 50eb5896-de0f-4b07-8db2-831a11cddc37
+  resourceVersion: "1393"
+  selfLink: /api/v1/namespaces/default/pods/my-release-mariadb-0
+  uid: 89e31bf1-fb0f-454c-8769-3bd7fd3312fa
+spec:
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - podAffinityTerm:
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/component: primary
+              app.kubernetes.io/instance: my-release
+              app.kubernetes.io/name: mariadb
+          namespaces:
+          - default
+          topologyKey: kubernetes.io/hostname
+        weight: 1
+  containers:
+  - env:
+    - name: BITNAMI_DEBUG
+      value: "false"
+    - name: MARIADB_ROOT_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: mariadb-root-password
+          name: my-release-mariadb
+    - name: MARIADB_USER
+      value: bn_opencart
+    - name: MARIADB_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: mariadb-password
+          name: my-release-mariadb
+    - name: MARIADB_DATABASE
+      value: bitnami_opencart
+    image: docker.io/bitnami/mariadb:10.5.6-debian-10-r0
+    imagePullPolicy: IfNotPresent
+    livenessProbe:
+      exec:
+        command:
+        - /bin/bash
+        - -ec
+        - |
+          password_aux="${MARIADB_ROOT_PASSWORD:-}"
+          if [[ -f "${MARIADB_ROOT_PASSWORD_FILE:-}" ]]; then
+              password_aux=$(cat "$MARIADB_ROOT_PASSWORD_FILE")
+          fi
+          mysqladmin status -uroot -p"${password_aux}"
+      failureThreshold: 3
+      initialDelaySeconds: 120
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    name: mariadb
+    ports:
+    - containerPort: 3306
+      name: mysql
+      protocol: TCP
+    readinessProbe:
+      exec:
+        command:
+        - /bin/bash
+        - -ec
+        - |
+          password_aux="${MARIADB_ROOT_PASSWORD:-}"
+          if [[ -f "${MARIADB_ROOT_PASSWORD_FILE:-}" ]]; then
+              password_aux=$(cat "$MARIADB_ROOT_PASSWORD_FILE")
+          fi
+          mysqladmin status -uroot -p"${password_aux}"
+      failureThreshold: 3
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    resources: {}
+    securityContext:
+      runAsUser: 1001
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /bitnami/mariadb
+      name: data
+    - mountPath: /opt/bitnami/mariadb/conf/my.cnf
+      name: config
+      subPath: my.cnf
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: my-release-mariadb-token-4m7jm
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  hostname: my-release-mariadb-0
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext:
+    fsGroup: 1001
+  serviceAccount: my-release-mariadb
+  serviceAccountName: my-release-mariadb
+  subdomain: my-release-mariadb
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: data
+    persistentVolumeClaim:
+      claimName: data-my-release-mariadb-0
+  - configMap:
+      defaultMode: 420
+      name: my-release-mariadb
+    name: config
+  - name: my-release-mariadb-token-4m7jm
+    secret:
+      defaultMode: 420
+      secretName: my-release-mariadb-token-4m7jm
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2020-10-22T08:06:28Z"
+    message: '0/4 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master:
+      }, that the pod didn''t tolerate, 3 pod has unbound immediate PersistentVolumeClaims.'
+    reason: Unschedulable
+    status: "False"
+    type: PodScheduled
+  phase: Pending
+  qosClass: BestEffort

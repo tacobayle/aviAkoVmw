@@ -39,3 +39,50 @@ spec:
     - ReadWriteOnce
   hostPath:
     path: "/mnt/data2"
+
+
+====
+
+ubuntu@master:~$ more pv-opencart.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: my-release-opencart-opencart
+spec:
+  claimRef:
+    name: my-release-opencart-opencart
+    namespace: default
+  capacity:
+    storage: 8Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  storageClassName: slow
+  nfs:
+    path: /var/lib/nfs-opencart
+    server: 100.64.129.20
+
+
+====
+
+ubuntu@master:~$ more pv-maria.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: data-my-release-mariadb-0
+spec:
+  claimRef:
+    name: data-my-release-mariadb-0
+    namespace: default
+  capacity:
+    storage: 8Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  storageClassName: slow
+  nfs:
+    path: /var/lib/nfs-mariadb
+    server: 100.64.129.20
+ubuntu@master:~$
