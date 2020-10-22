@@ -95,14 +95,14 @@ resource "vsphere_virtual_machine" "jump" {
 
   provisioner "file" {
   content      = <<EOF
-{"nfsShares": ${jsonencode(var.nfsShares)}, "kubernetesMasterIpCidr": ${vsphere_virtual_machine.master[0].guest_ip_addresses[2]}${var.kubernetes["networkPrefix"]}, "kubernetes": ${jsonencode(var.kubernetes)}}
+{"nfsShares": ${jsonencode(var.nfsShares)}, "kubernetesMasterIpCidr": "${vsphere_virtual_machine.master[0].guest_ip_addresses[2]}${var.kubernetes["networkPrefix"]}", "kubernetes": ${jsonencode(var.kubernetes)}}
 EOF
   destination = "~/ansible/vars/fromTerraformForKubernetes.json"
   }
 
   provisioner "remote-exec" {
     inline      = [
-      "cat ~/ansible/vars/fromTerraformForKubernetes.yml",
+      "cat ~/ansible/vars/fromTerraformForKubernetes.json",
       "chmod 600 ~/.ssh/${basename(var.jump["private_key_path"])}",
       "cd ~/ansible ; git clone ${var.ansible["k8sInstallUrl"]} --branch ${var.ansible["k8sInstallTag"]} ; ansible-playbook -i /opt/ansible/inventory/inventory.vmware.yml ansibleK8sInstall/main.yml --extra-vars @vars/fromTerraformForKubernetes.json",
     ]
