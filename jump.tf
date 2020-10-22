@@ -96,7 +96,7 @@ resource "vsphere_virtual_machine" "jump" {
   provisioner "remote-exec" {
     inline      = [
       "chmod 600 ~/.ssh/${basename(var.jump["private_key_path"])}",
-      "echo ${jsonencode{var.nfsShares)}",
+      "echo ${jsonencode(var.nfsShares)}",
       "echo ${vsphere_virtual_machine.master[0].guest_ip_addresses[2]}${var.kubernetes["networkPrefix"]}",
       "echo ${jsonencode(var.kubernetes)}",
       "cd ~/ansible ; git clone ${var.ansible["k8sInstallUrl"]} --branch ${var.ansible["k8sInstallTag"]} ; ansible-playbook -i /opt/ansible/inventory/inventory.vmware.yml ansibleK8sInstall/main.yml --extra-vars 'nfsShares=${jsonencode(var.nfsShares)} kubernetesMasterIpCidr=${vsphere_virtual_machine.master[0].guest_ip_addresses[2]}${var.kubernetes["networkPrefix"]} kubernetes=${jsonencode(var.kubernetes)}' ",
