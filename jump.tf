@@ -95,7 +95,7 @@ resource "vsphere_virtual_machine" "jump" {
 
   provisioner "file" {
   content      = <<EOF
-{"nfsShares": ${jsonencode(var.nfsShares)}, "kubernetesMasterIpCidr": "${vsphere_virtual_machine.master[0].guest_ip_addresses[2]}${var.kubernetes["networkPrefix"]}", "kubernetes": ${jsonencode(var.kubernetes)}}
+{"deploymentUrls": ${jsonencode(var.deploymentUrls)}, "nfsShares": ${jsonencode(var.nfsShares)}, "kubernetesMasterIpCidr": "${vsphere_virtual_machine.master[0].guest_ip_addresses[2]}${var.kubernetes["networkPrefix"]}", "kubernetes": ${jsonencode(var.kubernetes)}}
 EOF
   destination = "~/ansible/vars/fromTerraformForKubernetes.json"
   }

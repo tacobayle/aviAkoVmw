@@ -76,7 +76,7 @@ variable "ansible" {
     opencartInstallTag = "v1.19"
     directory = "ansible"
     k8sInstallUrl = "https://github.com/tacobayle/ansibleK8sInstall"
-    k8sInstallTag = "v1.3"
+    k8sInstallTag = "v1.31"
   }
 }
 
@@ -145,6 +145,11 @@ variable "kubernetes" {
     version = "1.18.2-00"
     networkPrefix = "/24"
   }
+}
+
+variable "deploymentUrls" {
+  type = list
+  default = ["https://raw.githubusercontent.com/tacobayle/k8sYaml/master/k8sDeploymentBusyBoxFrontEndV1.yml", "https://raw.githubusercontent.com/tacobayle/k8sYaml/master/k8sDeploymentBusyBoxFrontEndV2.yml", "https://raw.githubusercontent.com/tacobayle/k8sYaml/master/k8sDeploymentBusyBoxFrontEndV3.yml"]
 }
 
 variable "nfsShares" {
