@@ -100,11 +100,172 @@ EOF
   destination = "~/ansible/vars/fromTerraformForKubernetes.json"
   }
 
+  provisioner "file" {
+  content      = <<EOF
+---
+
+controller:
+  environment: ${var.controller["environment"]}
+  username: ${var.avi_user}
+  version: ${split("-", var.controller["version"])[0]}
+  password: ${var.avi_password}
+  floatingIp: ${var.controller["floatingIp"]}
+  count: ${var.controller["count"]}
+
+controllerPrivateIps:
+  ${yamlencode(vsphere_virtual_machine.controller.*.default_ip_address)}
+
+avi_systemconfiguration:
+  global_tenant_config:
+    se_in_provider_context: false
+    tenant_access_to_provider_se: true
+    tenant_vrf: false
+  welcome_workflow_complete: true
+  ntp_configuration:
+    ntp_servers:
+      - server:
+          type: V4
+          addr: ${var.controller["ntpMain"]}
+  dns_configuration:
+    search_domain: ''
+    server_list:
+      - type: V4
+        addr: ${var.controller["dnsMain"]}
+  email_configuration:
+    from_email: test@avicontroller.net
+    smtp_type: SMTP_LOCAL_HOST
+
+vmw:
+  name: &cloud0 cloudVmw # don't change it
+  network: ${var.avi_cloud["network"]}
+  networkDhcpEnabled: ${var.avi_cloud["networkDhcpEnabled"]}
+  networkExcludeDiscoveredSubnets: ${var.avi_cloud["networkExcludeDiscoveredSubnets"]}
+  networkVcenterDvs: ${var.avi_cloud["networkVcenterDvs"]}
+  dhcp_enabled: ${var.avi_cloud["dhcp_enabled"]}
+  vcenter_configuration:
+    username: ${var.vsphere_user}
+    password: ${var.vsphere_password}
+    vcenter_url: ${var.vsphere_server}
+    privilege: WRITE_ACCESS
+    datacenter: ${var.dc}
+    management_network: "/api/vimgrnwruntime/?name=${var.avi_cloud["network"]}"
+
+serviceEngineGroup:
+  - name: &segroup0 Default-Group
+    cloud_ref: *cloud0
+    ha_mode: HA_MODE_SHARED
+    min_scaleout_per_vs: 2
+    buffer_se: 1
+    extra_shared_config_memory: 0
+    vcenter_folder: ${var.folder}
+    vcpus_per_se: 2
+    memory_per_se: 4096
+    disk_per_se: 25
+    realtime_se_metrics:
+      enabled: true
+      duration: 0
+  - name: &segroup1 seGroupCpuAutoScale
+    cloud_ref: *cloud0
+    ha_mode: HA_MODE_SHARED
+    min_scaleout_per_vs: 1
+    buffer_se: 2
+    extra_shared_config_memory: 0
+    vcenter_folder: ${var.folder}
+    vcpus_per_se: 1
+    memory_per_se: 2048
+    disk_per_se: 25
+    auto_rebalance: true
+    auto_rebalance_interval: 30
+    auto_rebalance_criteria:
+    - SE_AUTO_REBALANCE_CPU
+    realtime_se_metrics:
+      enabled: true
+      duration: 0
+  - name: &segroup2 seGroupGslb
+    cloud_ref: *cloud0
+    ha_mode: HA_MODE_SHARED
+    min_scaleout_per_vs: 1
+    buffer_se: 0
+    extra_shared_config_memory: 2000
+    vcenter_folder: ${var.folder}
+    vcpus_per_se: 2
+    memory_per_se: 8192
+    disk_per_se: 25
+    realtime_se_metrics:
+      enabled: true
+      duration: 0
+  - name: &segroup3 seGroupAko
+    cloud_ref: *cloud0
+    ha_mode: HA_MODE_SHARED
+    min_scaleout_per_vs: 2
+    buffer_se: 1
+    extra_shared_config_memory: 0
+    vcenter_folder: ${var.folder}
+    vcpus_per_se: 2
+    memory_per_se: 4096
+    disk_per_se: 25
+    realtime_se_metrics:
+      enabled: true
+      duration: 0
+  - name: &segroup4 seGroupAmko
+    cloud_ref: *cloud0
+    ha_mode: HA_MODE_SHARED
+    min_scaleout_per_vs: 1
+    buffer_se: 0
+    extra_shared_config_memory: 2000
+    vcenter_folder: ${var.folder}
+    vcpus_per_se: 2
+    memory_per_se: 8192
+    disk_per_se: 25
+    realtime_se_metrics:
+      enabled: true
+      duration: 0
+
+domain:
+  name: ${var.domain["name"]}
+
+avi_network_vip:
+  name: ${var.avi_network_vip["name"]}
+  dhcp_enabled: ${var.avi_network_vip["dhcp_enabled"]}
+  exclude_discovered_subnets: ${var.avi_network_vip["exclude_discovered_subnets"]}
+  vcenter_dvs: ${var.avi_network_vip["vcenter_dvs"]}
+  subnet:
+    - prefix:
+        mask: "${element(split("/", var.avi_network_vip["subnet"]),1)}"
+        ip_addr:
+          type: "${var.avi_network_vip["type"]}"
+          addr: "${element(split("/", var.avi_network_vip["subnet"]),0)}"
+      static_ranges:
+        - begin:
+            type: "${var.avi_network_vip["type"]}"
+            addr: "${var.avi_network_vip["begin"]}"
+          end:
+            type: "${var.avi_network_vip["type"]}"
+            addr: "${var.avi_network_vip["end"]}"
+
+avi_network_backend:
+  name: ${var.backend["network"]}
+  dhcp_enabled: ${var.avi_network_backend["dhcp_enabled"]}
+  exclude_discovered_subnets: ${var.avi_network_backend["exclude_discovered_subnets"]}
+  vcenter_dvs: ${var.avi_network_backend["vcenter_dvs"]}
+  subnet:
+    - prefix:
+        mask: "${element(split("/", var.avi_network_backend["subnet"]),1)}"
+        ip_addr:
+          type: "${var.avi_network_backend["type"]}"
+          addr: "${element(split("/", var.avi_network_backend["subnet"]),0)}"
+
+EOF
+  destination = "~/ansible/vars/fromTerraform.yml"
+  }
+
   provisioner "remote-exec" {
     inline      = [
       "cat ~/ansible/vars/fromTerraformForKubernetes.json",
+      "cat ~/ansible/vars/fromTerraform.yml",
       "chmod 600 ~/.ssh/${basename(var.jump["private_key_path"])}",
       "cd ~/ansible ; git clone ${var.ansible["k8sInstallUrl"]} --branch ${var.ansible["k8sInstallTag"]} ; ansible-playbook -i /opt/ansible/inventory/inventory.vmware.yml ansibleK8sInstall/main.yml --extra-vars @vars/fromTerraformForKubernetes.json",
+      "cd ~/ansible ; git clone ${var.ansible["aviConfigureUrl"]} --branch ${var.ansible["aviConfigureTag"]} ; ansible-playbook -i /opt/ansible/inventory/inventory.vmware.yml aviConfigure/local.yml --extra-vars @vars/fromTerraform.yml",
     ]
   }
 
